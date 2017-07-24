@@ -8,9 +8,10 @@ PayTrack is Java Application for tracking payments, developed by Jakm. PayTrack 
 Download: 	1. Download [Jar file] 
 			2. Run it (If you are using OS linux, open terminal and type java -jar (absolutePathToJar) )
 
-Use: 		+ If you want to exit app type "quit" or "QUIT"
-			+ Inser payment by typyng currency initials and value etc. 	USD 100 
-			+ Also negative values can be typed etc.  -RMB 2000
+Use: 	
++ If you want to exit app type "quit" or "QUIT"
++ Inser payment by typyng currency initials and value etc. 	USD 100 
++ Also negative values can be typed etc.  -RMB 2000
 
 
 Full documentation can be find here [Documentation] 
