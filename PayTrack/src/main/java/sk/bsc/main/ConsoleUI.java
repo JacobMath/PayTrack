@@ -10,11 +10,10 @@ import java.util.ArrayList;
  */
 public class ConsoleUI implements Runnable{
 
-    private ExistingCurrencies existingCurrencies;
+    private ExistingCurrencies existingCurrencies = ExistingCurrencies.getInstanceEC();;
     private Writer writer;
 
     public ConsoleUI() {
-        existingCurrencies = ExistingCurrencies.getInstanceEC();
         writer = new Writer();
     }
 

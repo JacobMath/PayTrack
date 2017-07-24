@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class ExistingCurrencies {
 
-    private static ExistingCurrencies instanceEC = new ExistingCurrencies();
+    private static ExistingCurrencies instanceEC;
 
     private List<Currency> existingCurrencies;
 
@@ -80,6 +80,9 @@ public class ExistingCurrencies {
      * @return instance of {@link ExistingCurrencies}
      */
     public static ExistingCurrencies getInstanceEC(){
+        if(instanceEC == null) {
+            instanceEC = new ExistingCurrencies();
+        }
         return instanceEC;
     }
 }
