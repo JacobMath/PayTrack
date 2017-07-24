@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * The PayTrack application sum up currencies written by console and printing it out every minute.
+ * The PayTrack application sum up currencies written in console, store it into file and printing it out every minute.
  * @author JAKM
  */
 public class PayTrack {
@@ -18,8 +18,8 @@ public class PayTrack {
     }
 
     /**
-     * Separate threads for ConsoleUI and Reader, and start them.
-     * @param args Absolute path to file where to write written currencies
+     * Separate threads for ConsoleUI and Summary, and start them.
+     * @param args Absolute path to file where to write currencies
      */
     public static void main(String[] args) {
         PayTrack payTrack = new PayTrack();
@@ -28,10 +28,9 @@ public class PayTrack {
             payTrack.findOrCreateFile(args[0]);
         else
             payTrack.findOrCreateFile(System.getProperty("user.dir")+"/default.txt");
-        ///home/jackyslaw/Desktop/PayTrack/PayTrack/newFile.txt
 
-        Thread reader = new Thread(new Reader());
-        reader.setName("Reader");
+        Thread reader = new Thread(new Summary());
+        reader.setName("Summary");
         Thread console = new Thread(new ConsoleUI());
         console.setName("ConsoleUI");
         reader.start();
@@ -42,13 +41,13 @@ public class PayTrack {
      * Print welcome message
      */
     private void welcomeMesage(){
-        System.out.println("- - - PAYMENT TRACKER - - -");
+        System.out.println("- - - - - PAYMENT TRACKER - - - - -");
         System.out.println("Welcome dear customer!");
     }
 
     /**
-     * Try to find file from parameter, if it's not created yet, create it.
-     * @param path where to find/create file.
+     * Try to find file obtained as parameter, if it's not created yet, create it.
+     * @param path String value of path, where to find/create file.
      */
     private void findOrCreateFile(String path) {
         file = new File(path);
@@ -60,7 +59,6 @@ public class PayTrack {
             file.delete();
             System.out.println("Default file will be used !");
             findOrCreateFile(System.getProperty("user.dir") + "/default.txt");
-
         }
     }
 

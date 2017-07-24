@@ -2,8 +2,8 @@ package sk.bsc.main;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -12,38 +12,37 @@ import java.util.List;
 public class Writer {
 
     /**
-     * Check if currency is already in file, if it is change value, if not just write it.
-     * @param input from console.
+     * Check if currency is already in file, if it is change value, if it is not, write it.
+     * @param input red line from console.
      */
-    public static void checkAndWrite(String input){
-        String currency = input.substring(0,3);
-        String valueString = input.substring(4);
-        int valueInt = Integer.parseInt(valueString);
+    public void checkAndWrite(String input){
+        String consoleCurrencyInitials = input.substring(0,3);
+        String consoleCurrencyValueString = input.substring(4);
+        float consoleCurrencyValueFloat = Float.parseFloat(consoleCurrencyValueString);
 
-        List<String> fileCurrencies = new ArrayList<>();
+        List<String> fileCurrencies;
         PayTrack.lock.readLock().lock();
         try {
-            fileCurrencies = Reader.readFile();
+            fileCurrencies = Summary.readFile();
         } finally {
             PayTrack.lock.readLock().unlock();
         }
 
         String existingLine = null;
         for (String line : fileCurrencies) {
-            if (line.contains(currency)) {
+            if (line.contains(consoleCurrencyInitials)) {
                 existingLine = line;
                 break;
             }
         }
 
         if (existingLine != null) {
-            Integer value = Integer.valueOf(existingLine.substring(4));
-            value = value + valueInt;
-            if (value == 0)
+            Float fileValue = Float.valueOf(existingLine.substring(4));
+            fileValue = fileValue + consoleCurrencyValueFloat;
+            if (fileValue == 0)
                 fileCurrencies.remove(existingLine);
             else {
-                String newLine = existingLine.substring(0, 3) + " " + value;
-                System.out.println(newLine);
+                String newLine = existingLine.substring(0, 3) + " " + fileValue;
                 fileCurrencies.remove(existingLine);
                 fileCurrencies.add(newLine);
             }
@@ -58,11 +57,11 @@ public class Writer {
 
     /**
      * Write edited values to file.
-     * @param fileCurrencies readed from file.
+     * @param fileCurrencies currencies red from file.
      */
     private static void writeToFile(List<String> fileCurrencies){
         PayTrack.lock.writeLock().lock();
-        FileWriter writer = null;
+        FileWriter writer;
         try {
             writer = new FileWriter(PayTrack.file);
         for(String str: fileCurrencies) {
