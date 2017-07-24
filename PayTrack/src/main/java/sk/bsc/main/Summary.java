@@ -57,7 +57,7 @@ public class Summary implements Runnable {
         PayTrack.lock.readLock().lock();
         List<String> currencies = new ArrayList<>();
         try {
-            currencies= Files.readAllLines(Paths.get((PayTrack.file).toURI()), Charset.forName("UTF-8"));
+            currencies = Files.readAllLines(Paths.get((PayTrack.file).toURI()), Charset.forName("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -14,7 +14,6 @@ public class PayTrack {
     public static File file;
 
     public PayTrack() {
-        welcomeMesage();
     }
 
     /**
@@ -23,11 +22,12 @@ public class PayTrack {
      */
     public static void main(String[] args) {
         PayTrack payTrack = new PayTrack();
+        payTrack.welcomeMesage();
 
         if (args.length != 0 && !args[0].isEmpty())
-            payTrack.findOrCreateFile(args[0]);
+            file = payTrack.findOrCreateFile(args[0]);
         else
-            payTrack.findOrCreateFile(System.getProperty("user.dir")+"/default.txt");
+            file = payTrack.findOrCreateFile(System.getProperty("user.dir")+"/default.txt");
 
         Thread reader = new Thread(new Summary());
         reader.setName("Summary");
@@ -49,7 +49,7 @@ public class PayTrack {
      * Try to find file obtained as parameter, if it's not created yet, create it.
      * @param path String value of path, where to find/create file.
      */
-    private void findOrCreateFile(String path) {
+    public File findOrCreateFile(String path) {
         file = new File(path);
         file.getParentFile().mkdirs();
         try {
@@ -60,6 +60,8 @@ public class PayTrack {
             System.out.println("Default file will be used !");
             findOrCreateFile(System.getProperty("user.dir") + "/default.txt");
         }
+        return file;
     }
+
 
 }
